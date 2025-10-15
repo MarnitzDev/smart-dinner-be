@@ -28,7 +28,7 @@ export async function suggestRecipes(request, reply) {
 	prompt += '\n]';
 
 		try {
-			const response = await fetch('https://api.openai.com/v1/chat/completions', {
+			const response = await fetch('https://api.openai.com/v1/responses', {
 				method: 'POST',
 				headers: {
 					'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -36,10 +36,8 @@ export async function suggestRecipes(request, reply) {
 				},
 				body: JSON.stringify({
 					model: 'gpt-5-nano',
-					messages: [
-						{ role: 'system', content: 'You are a helpful assistant that suggests meal ideas.' },
-						{ role: 'user', content: prompt }
-					]
+					input: prompt,
+					store: false
 				})
 			});
 			if (!response.ok) {
